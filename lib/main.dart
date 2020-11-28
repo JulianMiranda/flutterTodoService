@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cotopaxi',
-    initialRoute: 'login',
-    routes: appRoutes,
+      initialRoute: 'chat',
+      routes: appRoutes,
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:cotopaxi/pages/user_page.dart';
 
 final Map<String, Widget Function(BuildContext)> appRoutes = {
 
-  'usuarios': ( _ ) => UsersPage(),
+  'user': ( _ ) => UsersPage(),
   'chat'    : ( _ ) => ChatPage(),
   'login'   : ( _ ) => LoginPage(),
   'register': ( _ ) => RegisterPage(),
