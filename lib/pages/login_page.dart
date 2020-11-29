@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:cotopaxi/widgets/logo.dart';
 import 'package:cotopaxi/widgets/labels.dart';
 import 'package:cotopaxi/widgets/custom_input.dart';
 import 'package:cotopaxi/widgets/btn_blue.dart';
+import 'package:cotopaxi/services/aut_service.dart';
+import 'package:cotopaxi/helpers/show_alert.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -18,9 +21,15 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Logo(title: 'Cotopaxi',),
+                  Logo(
+                    title: 'Cotopaxi',
+                  ),
                   _Form(),
-                  Labels(route: 'register', title: '¿No tienes cuenta?', subtitle: 'Crear cuenta',),
+                  Labels(
+                    route: 'register',
+                    title: '¿No tienes cuenta?',
+                    subtitle: 'Crear cuenta',
+                  ),
                   Text('Terminos y Condiciones',
                       style: TextStyle(fontWeight: FontWeight.w200)),
                 ],
@@ -42,6 +51,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -61,10 +71,20 @@ class __FormState extends State<_Form> {
           ),
           BtnBlue(
             text: 'Ingrese',
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-            },
+            onPressed: authService.sennding
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    final loginReq = await authService.login(
+                        emailCtrl.text.trim(), passCtrl.text.trim());
+                    if (loginReq) {
+                      // TODO navegar
+                      Navigator.pushReplacementNamed(context, 'user');
+                    } else {
+                      showAlert(
+                          context, 'Login incorrecto', 'Revise credenciales');
+                    }
+                  },
           )
         ],
       ),
