@@ -1,7 +1,8 @@
-import 'package:cotopaxi/helpers/show_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:cotopaxi/helpers/show_alert.dart';
+import 'package:cotopaxi/services/socket_service.dart';
 import 'package:cotopaxi/services/aut_service.dart';
 import 'package:cotopaxi/widgets/logo.dart';
 import 'package:cotopaxi/widgets/labels.dart';
@@ -51,6 +52,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -87,7 +89,7 @@ class __FormState extends State<_Form> {
                         emailCtrl.text.trim(),
                         passCtrl.text.trim());
                     if (registerReq == true) {
-                      // TODO
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'user');
                     } else {
                       showAlert(context, 'Registro incorrecto', registerReq);

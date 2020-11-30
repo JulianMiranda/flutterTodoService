@@ -7,6 +7,7 @@ import 'package:cotopaxi/widgets/custom_input.dart';
 import 'package:cotopaxi/widgets/btn_blue.dart';
 import 'package:cotopaxi/services/aut_service.dart';
 import 'package:cotopaxi/helpers/show_alert.dart';
+import 'package:cotopaxi/services/socket_service.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -52,6 +53,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -78,7 +80,7 @@ class __FormState extends State<_Form> {
                     final loginReq = await authService.login(
                         emailCtrl.text.trim(), passCtrl.text.trim());
                     if (loginReq) {
-                      // TODO navegar
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'user');
                     } else {
                       showAlert(
